@@ -161,6 +161,75 @@ void display(void)
     glutSwapBuffers();
 }
 
+
+void mouse(int button, int state, int x, int y)
+{
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+        printf("Mouse left button pressed at (%d, %d)\n", x, y);
+    }
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 27: // ESC key
+        exit(0);
+        break;
+    case 'r':
+        glClearColor(1.0, 0.0, 0.0, 0.0); // Red background
+        break;
+    case 'g':
+        glClearColor(0.0, 1.0, 0.0, 0.0); // Green background
+        break;
+    case 'b':
+        glClearColor(0.0, 0.0, 1.0, 0.0); // Blue background
+        break;
+    default:
+        break;
+    }
+    glutPostRedisplay();
+}
+
+void menu(int option)
+{
+    switch (option)
+    {
+    case 1:
+        glClearColor(1.0, 0.0, 0.0, 0.0); // Red background
+        break;
+    case 2:
+        glClearColor(0.0, 1.0, 0.0, 0.0); // Green background
+        break;
+    case 3:
+        glClearColor(0.0, 0.0, 1.0, 0.0); // Blue background
+        break;
+    case 4:
+        exit(0);
+        break;
+    default:
+        break;
+    }
+    glutPostRedisplay();
+}
+
+void createMenu()
+{
+    int submenu = glutCreateMenu(menu);
+    glutAddMenuEntry("Red", 1);
+    glutAddMenuEntry("Green", 2);
+    glutAddMenuEntry("Blue", 3);
+
+    glutCreateMenu(menu);
+    glutAddSubMenu("Change Background Color", submenu);
+    glutAddMenuEntry("Exit", 4);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
+
+
+
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
@@ -170,6 +239,9 @@ int main(int argc, char** argv)
     glutCreateWindow("A Moving Car Scenario");
     init();
     glutDisplayFunc(display);
+    glutMouseFunc(mouse);
+    glutKeyboardFunc(keyboard);
+    createMenu();
     glutMainLoop();
     return 0;
 }
