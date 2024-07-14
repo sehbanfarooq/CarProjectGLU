@@ -3,6 +3,20 @@
 #include <math.h>
 #include <GL/glut.h>
 
+// Function declarations
+void circle(GLfloat rx, GLfloat ry, GLfloat cx, GLfloat cy);
+void init(void);
+void hills(void);
+void drawClouds(void);
+void display(void);
+void mouse(int button, int state, int x, int y);
+void keyboard(unsigned char key, int x, int y);
+void menu(int option);
+void createMenu(void);
+
+float bx = -500; // Initial position so the car starts from the far left end
+int isMoving = 0; // Flag to control car movement
+
 void circle(GLfloat rx, GLfloat ry, GLfloat cx, GLfloat cy)
 {
     glBegin(GL_POLYGON);
@@ -23,10 +37,7 @@ void init(void)
     gluOrtho2D(0.0, 500, 0.0, 500); // window size
 }
 
-float bx = -500; // Initial position so the car starts from the far left end
-int isMoving = 0; // Flag to control car movement
-
-void hills()
+void hills(void)
 {
     // Hills 1
     glColor3ub(184, 134, 11);
@@ -51,6 +62,20 @@ void hills()
     glVertex2d(520, 300);
     glVertex2d(400, 450);
     glEnd();
+}
+
+void drawClouds(void)
+{
+    // Cloud 1
+    glColor3ub(255, 255, 255);
+    circle(20, 20, 100, 480);
+    circle(20, 20, 130, 480);
+    circle(20, 20, 115, 500);
+
+    // Cloud 2
+    circle(20, 20, 300, 460);
+    circle(20, 20, 330, 460);
+    circle(20, 20, 315, 480);
 }
 
 void display(void)
@@ -89,6 +114,9 @@ void display(void)
     // Sun
     glColor3ub(255, 215, 0);
     circle(20, 20, 175, 450);
+
+    // Clouds above the hills
+    drawClouds();
 
     // Moving Car
     glPushMatrix();
@@ -138,7 +166,7 @@ void display(void)
     glPopMatrix();
 
     if (isMoving) {
-        bx += .05;
+        bx += 0.05;
         if (bx > 500) bx = -500; // Reset to start position when off-screen
     }
 
