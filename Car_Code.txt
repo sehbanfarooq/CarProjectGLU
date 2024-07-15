@@ -170,6 +170,20 @@ void display(void)
         if (bx > 500) bx = -500; // Reset to start position when off-screen
     }
 
+if (bx >= 500) {
+        glColor3ub(255, 255, 255); // White color for text
+        glRasterPos2i(220, 250); // Position of the text
+        const char* message = "Thank you";
+        while (*message) {
+            glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *message);
+            message++;
+        }
+    }
+
+
+
+
+
     glutPostRedisplay();
 
     glFlush();
